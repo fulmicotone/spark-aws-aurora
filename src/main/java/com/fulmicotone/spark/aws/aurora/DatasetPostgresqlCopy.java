@@ -20,11 +20,13 @@ public class  DatasetPostgresqlCopy implements  IDatasetPostgresqlCopy< AuroraPr
     public void save(AuroraPropertiesSupplier propsProvider,String tableName, Dataset<Row> inputDataset) throws DatasetPostgresqlCopyException {
 
 
-        SparkRowIteratorToInputStream srtois=new SparkRowIteratorToInputStream();
+
 
         Properties auroraProperties=propsProvider.get();
 
         inputDataset.foreachPartition(r->{
+
+            SparkRowIteratorToInputStream srtois=new SparkRowIteratorToInputStream();
 
             try(Connection conn = DriverManager
                     .getConnection(auroraProperties
