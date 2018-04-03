@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class AuroraTruncate implements BiConsumer<AuroraPropertiesSupplier,String> {
 
-    
+
     private final Logger log= LoggerFactory.getLogger(AuroraTruncate.class);
 
     @Override
