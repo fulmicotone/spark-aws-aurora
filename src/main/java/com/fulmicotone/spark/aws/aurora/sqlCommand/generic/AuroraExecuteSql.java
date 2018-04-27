@@ -1,25 +1,23 @@
-package com.fulmicotone.spark.aws.aurora;
+package com.fulmicotone.spark.aws.aurora.sqlCommand.generic;
 
+import com.fulmicotone.spark.aws.aurora.AuroraPropertiesSupplier;
+import com.fulmicotone.spark.aws.aurora.PropertiesLabels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public class AuroraTruncate implements BiConsumer<AuroraPropertiesSupplier,String> {
+public class AuroraExecuteSql implements BiConsumer<AuroraPropertiesSupplier,String> {
 
 
-    private final Logger log= LoggerFactory.getLogger(AuroraTruncate.class);
+    private final Logger log= LoggerFactory.getLogger(AuroraExecuteSql.class);
 
     @Override
-    public void accept(AuroraPropertiesSupplier auroraPropertiesSupplier,String tableName) {
+    public void accept(AuroraPropertiesSupplier auroraPropertiesSupplier,String sql) {
 
         PreparedStatement stm=null;
 
@@ -27,10 +25,8 @@ public class AuroraTruncate implements BiConsumer<AuroraPropertiesSupplier,Strin
                 .getConnection(auroraPropertiesSupplier.get()
                         .getProperty(PropertiesLabels.Aurora.DATABASE_CONNECTION_STRING), auroraPropertiesSupplier.get())){
 
-
-             stm = conn.prepareStatement("TRUNCATE TABLE " + tableName + " RESTART IDENTITY;");
+             stm = conn.prepareStatement(sql);
              stm.execute();
-
 
         }catch (Exception e){
             log.error(e.toString());
