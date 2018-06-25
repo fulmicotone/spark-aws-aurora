@@ -34,11 +34,10 @@ There are two way to write dataset on postgresql  through the spark api or throu
  ### Aurora properties    
  
  ```
- database.connection.string=jdbc:postgresql://addressDatabase:5432/schemaname
- database.username=username
- database.password=password
- database.connection.isolation.level=READ_COMMITTED
- jdbc.driver.class=org.postgresql.Driver
+ url=jdbc:postgresql://addressDatabase:5432/schemaname
+ user=username
+ password=password
+ driver=org.postgresql.Driver
 
  ```
   
