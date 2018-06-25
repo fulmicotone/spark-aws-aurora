@@ -15,16 +15,20 @@ import java.util.Properties;
 public class  DatasetPostgresqlCopy implements  IDatasetPostgresqlCopy< AuroraPropertiesSupplier,String,Dataset<Row>> {
 
 
+    final static Logger log=LoggerFactory.getLogger(DatasetPostgresqlCopy.class);
 
     @Override
-    public void save(AuroraPropertiesSupplier propsProvider,String tableName, Dataset<Row> inputDataset) throws DatasetPostgresqlCopyException {
+    public void save(AuroraPropertiesSupplier propsProvider,
+                     String tableName,
+                     Dataset<Row> inputDataset) throws DatasetPostgresqlCopyException {
 
 
 
 
         Properties auroraProperties=propsProvider.get();
 
-        inputDataset.foreachPartition(r->{
+        inputDataset
+                .foreachPartition(r->{
 
             SparkRowIteratorToInputStream srtois=new SparkRowIteratorToInputStream();
 
@@ -42,7 +46,7 @@ public class  DatasetPostgresqlCopy implements  IDatasetPostgresqlCopy< AuroraPr
             }catch (Exception e){
 
 
-               e.printStackTrace();
+                log.error("error inside copy "+ e.toString());
             }
 
         });
